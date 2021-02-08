@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Let us begin! </title>
+        <script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
+        <script src="js/spawn-effect.js"></script>
+        <script src="js/return-slammer.js"></script>
+        <script src="js/destroy-effect.js"></script>
+        
+        <link rel="stylesheet" href="css/begin.css">
+
+        <script>
+            AFRAME.registerComponent('begin', {
+                init: function() {
+                    console.log("scene loaded");
+                    document.querySelector('#startButton').style.display = 'block';
+                }
+            });
+
+            const startExperience = function() {
+                document.querySelector('#the-beginning').style.display = 'none';
+
+                const ambientSounds = document.querySelectorAll('.duckquacking')
+                ambientSounds.forEach(function(soundEntity) {
+                    soundEntity.components.sound.playSound();
+                })
+            }
+            
+        </script>
+    </head>
+    
+    <body>
+        <div id="the-beginning">
+            <div class="center">
+                <button id="startButton" onclick="startExperience();"> Let's Do This!</button>
+            </div>
+        </div>
+
+        <a-scene begin>
+        
+
+            <a-assets>
+                <!--<a-asset-item id="ducky" src="/assets/scene.gltf"></a-asset-item> -->
+                <a-asset-items id="ducky" src="assets/scene.gltf"></a-asset-items>
+            </a-assets>
+
+            <a-assets timeout="10000">
+                <audio id="duckMusic" src="assets/what is duck.mp3" preload="true" crossorigin="anonymous"></audio>
+            </a-assets>
+
+          <a-entity class= ducky gltf-model="#ducky"
+            ></a-entity>    
+          
+        </a-assets>
+            <a-entity class="duckquacking" position= "0 0 0" sound="src: #duckMusic; autoplay:false; loop:true"></a-entity>
+            <a-entity id= "duckTable"
+                    position= "0 0 -10"
+                    rotation= "0 0 0"
+                    scale= "1 1 1"
+                    geometry= "primitive:box; width:3; height:1; depth:3;"
+                    material="color: rgb(66, 13, 9)">
+
+            </a-entity>
+
+            <a-entity id= "plane"
+                    position= "0 0 -20"
+                    rotation= "-90 0 0"
+                    scale= "20 50 20"
+                    geometry= "primitive:plane; width:1; height:1;"
+                    material="color:rgb(0, 0, 0)">
+
+            </a-entity>
+            
+           
+            <a-entity camera wasd-controls look-controls position= "0 1.6 0">
+                <a-entity cursor= "rayOrigin:mouse;" raycaster="far:20; interval:200; objects:.create, .destroy, .raise"></a-entity>
+            </a-entity>
+
+            <a-entity class="buttons">
+                <a-entity class="create"
+                            position="1 0.75 -2"
+                            geometry="primitive:cylinder; radius:0.15; height:0.2;" material="color:rgb(76, 187, 73)";
+                            animation__mouseenter="property:material.color; type:color; to:rgb(76, 61, 61); dur:200; startEvents:mouseenter;"
+                            animation__mouseleave="property:material.color; type:color; to:rgb(76, 187, 73); dur:200; startEvents:mouseleave;"
+                            animation__click= "property:position; from: 1 0.6 -2; to: 1 0.75 -2; dur:200; startEvents:click;"
+                            spawn-effect=""                           
+                ></a-entity>
+                <a-entity class="destroy"
+                            position="-1 0.75 -2"
+                            geometry="primitive:cylinder; radius:0.15; height:0.2;" material="color: rgb(202, 0, 42)";
+                            animation__mouseenter="property:material.color; type:color; to:rgb(76, 61, 61); dur:200; startEvents:mouseenter;"
+                            animation__mouseleave="property:material.color; type:color; to:rgb(202, 0, 42); dur:200; startEvents:mouseleave;"
+                            animation__click= "property:position; from: -1 0.6 -2; to: -1 0.75 -2; dur:200; startEvents:click;"
+                            destroy-effect=""                           
+                ></a-entity>
+                <a-entity class="raise"
+                            position="0 0.75 -2"
+                            geometry="primitive:cylinder; radius:0.15; height:0.2;" material="color: rgb(253, 106, 2)";
+                            animation__mouseenter="property:material.color; type:color; to:rgb(247, 152, 98); dur:200; startEvents:mouseenter;"
+                            animation__mouseleave="property:material.color; type:color; to:rgb(253, 106, 2); dur:200; startEvents:mouseleave;"
+                            animation__click= "property:position; from: 0 0.6 -2; to: 0 0.75 -2; dur:200; startEvents:click;"
+                            return-slammer=""                           
+                ></a-entity>
+
+                <a-entity class= "slammer"
+                    collider-check
+                    position= "0 10 -10"
+                    scale= "1 1 1"
+                    geometry= "primitive:box; width: 3; height: 5; depth:3;"
+                    material= "color: grey"
+                    returnSlammer=""
+                    destroy-effect=""
+                ></a-entity>
+           
+        </a-entity>
+            
+            <a-entity id= "table"
+                position= "0 0.5 -2"
+                rotation = "0 90 0"
+                scale= "2 0.5 5"
+                geometry= "primitive: box"
+                material= "color:brown"
+            ></a-entity>
+
+                <a-entity class="wall" position="10 5 -20" rotation="0 -90 0" geometry="primitive:plane; width: 50.0; height: 10;" material="color: rgb(36, 49, 168)"></a-entity>
+            <a-entity id= "walls">
+                <a-entity class="wall" position="10 5 -20" rotation="0 -90 0" geometry="primitive:plane; width: 50.0; height: 10;" material="color: rgb(36, 49, 168)"></a-entity>
+                <a-entity class="wall" position="-10 5 -20" rotation="0 90 0" geometry="primitive:plane; width: 50.0; height: 10;" material="color: rgb(36, 49, 168)"></a-entity>
+                <a-entity class="wall" position="0 5 -45" rotation="0 0 0" geometry="primitive:plane; width: 20.0; height: 10;" material="color: rgb(36, 49, 168)"></a-entity>
+                <a-entity class="wall" position="0 5 5" rotation="0 -180 0" geometry="primitive:plane; width: 20.0; height: 10;" material="color: rgb(36, 49, 168)"></a-entity>
+            </a-entity>
+        </a-scene>
+    </body>
+    
+</html>
